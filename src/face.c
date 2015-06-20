@@ -46,7 +46,7 @@ void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	
   //Handle Date
 	static char date_text[] = "XXXXXXXXX 00";
-	static char day_text[] = "Mm";
+	static char day_text[] = "Mmmmmmmmm";
 	int i;
 	
   strftime(date_text, sizeof(date_text), "%B %e", tick_time);
@@ -54,7 +54,7 @@ void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
   		if(date_text[i]>='a' && date_text[i]<='z') date_text[i] -= 32;
 	}
   text_layer_set_text(text_date_layer, date_text);
-  strftime(day_text, sizeof(day_text), "%a", tick_time);
+  strftime(day_text, sizeof(day_text), "%A", tick_time);
   text_layer_set_text(text_day_layer, day_text);
 	
   // Handle Time
@@ -101,6 +101,14 @@ void handle_init(void) {
   text_layer_set_font(text_date_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_18)));
   layer_add_child(window_layer, text_layer_get_layer(text_date_layer));
 	
+  //Day of week
+  text_day_layer = text_layer_create(GRect(8, 45, 144-8, 168-10));
+  text_layer_set_text_color(text_day_layer, GColorWhite);
+  text_layer_set_background_color(text_day_layer, GColorClear);
+  //text_layer_set_text_alignment(text_day_layer, GTextAlignmentCenter);
+  text_layer_set_font(text_day_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_18)));
+  layer_add_child(window_layer, text_layer_get_layer(text_day_layer));
+  
   //Box Layer
 	
   GRect box_frame = GRect(0, 91, 144, 168-91);
@@ -117,21 +125,13 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(text_hour_layer));
 
   //Minutes Layer
-  text_min_layer = text_layer_create(GRect(90, 91, 144-90, 168-91));
+  text_min_layer = text_layer_create(GRect(90, 97, 144-90, 168-91));
   text_layer_set_text_color(text_min_layer, GColorBlack);
   text_layer_set_background_color(text_min_layer, GColorClear);
 	text_layer_set_text_alignment(text_min_layer, GTextAlignmentCenter);
   text_layer_set_font(text_min_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_43)));
   layer_add_child(window_layer, text_layer_get_layer(text_min_layer));
 	
-  //Day of week
-  text_day_layer = text_layer_create(GRect(90, 140, 144-90, 168-140));
-  text_layer_set_text_color(text_day_layer, GColorBlack);
-  text_layer_set_background_color(text_day_layer, GColorClear);
-  text_layer_set_text_alignment(text_day_layer, GTextAlignmentCenter);
-  text_layer_set_font(text_day_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_18)));
-  layer_add_child(window_layer, text_layer_get_layer(text_day_layer));
-
   //Line
   GRect line_frame = GRect(8, 38, 139, 2);
   line_layer = layer_create(line_frame);
