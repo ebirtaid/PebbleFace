@@ -87,7 +87,6 @@ void handle_init(void) {
 	
   // Create the window	
   window = window_create();
-  window_stack_push(window, true /* Animated */);
   window_set_background_color(window, GColorBlack);
 
   Layer *window_layer = window_get_root_layer(window);
@@ -154,7 +153,8 @@ void handle_init(void) {
   time_t now = time(NULL);
   struct tm *tick_time = localtime(&now);
   handle_minute_tick(tick_time, MINUTE_UNIT);
-  
+  window_stack_push(window, true /* Animated */);
+
 }
 
 int main(void) {
