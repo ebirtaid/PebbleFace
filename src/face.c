@@ -29,6 +29,9 @@ void bt_handler(bool connected){
 }
 
 void battery_handler(BatteryChargeState batt){
+  bool connected = bluetooth_connection_service_peek();
+  bluetooth_connection_service_subscribe(&bt_handler);
+  bt_handler(connected);
 	if(batt.is_charging){
 		layer_set_hidden(line_layer, true);
 		return;
@@ -36,6 +39,9 @@ void battery_handler(BatteryChargeState batt){
 	if(batt.charge_percent >= 97){
 		layer_set_hidden(line_layer, false);
 	}
+  if(!connected){
+    		layer_set_hidden(line_layer, true);
+  }
 	else{
 		layer_set_hidden(line_layer, false);
 	}
@@ -88,7 +94,6 @@ void handle_init(void) {
   // Create the window	
   window = window_create();
   window_set_background_color(window, GColorBlack);
-
   Layer *window_layer = window_get_root_layer(window);
 	
   ////Text Layers
@@ -104,7 +109,6 @@ void handle_init(void) {
   text_day_layer = text_layer_create(GRect(8, 45, 144-8, 168-10));
   text_layer_set_text_color(text_day_layer, GColorWhite);
   text_layer_set_background_color(text_day_layer, GColorClear);
-  //text_layer_set_text_alignment(text_day_layer, GTextAlignmentCenter);
   text_layer_set_font(text_day_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_18)));
   layer_add_child(window_layer, text_layer_get_layer(text_day_layer));
   
