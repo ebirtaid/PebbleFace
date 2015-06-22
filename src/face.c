@@ -9,8 +9,14 @@ Layer *line_layer;
 Layer *box_layer;
 
 void line_layer_update_callback(Layer *layer, GContext* ctx) {
-  graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
+GPoint p0,p1;
+BatteryChargeState bat_stat = battery_state_service_peek();
+p0.x=0;
+p0.y=0;
+p1.x= (int16_t) (1.4 * bat_stat.charge_percent); // 140 @ 100 percent
+p1.y=0;
+graphics_context_set_stroke_color(ctx, GColorWhite);
+graphics_draw_line(ctx, p0, p1);
 }
 
 void box_layer_update_callback(Layer *layer, GContext* ctx) {
@@ -39,9 +45,6 @@ void battery_handler(BatteryChargeState batt){
   if(!connected){
     layer_set_hidden(line_layer, true);
   }
-//  if(connected && !batt.is_charging && batt.charge_percent <= 50){
-//		layer_set_hidden(line_layer, true);
-//	}
 	else{
 		layer_set_hidden(line_layer, false);
 	}
@@ -50,6 +53,8 @@ void battery_handler(BatteryChargeState batt){
 // Update Time and date.
 void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	
+  layer_mark_dirty(line_layer);
+  
   //Handle Date
 	static char date_text[] = "XXXXXXXXX 00";
 	static char day_text[] = "Mmmmmmmmm";
@@ -90,14 +95,12 @@ void handle_deinit(void) {
 }
 
 void handle_init(void) {
-	
   // Create the window	
   window = window_create();
   window_set_background_color(window, GColorBlack);
   Layer *window_layer = window_get_root_layer(window);
 	
   ////Text Layers
-  
   //Date Layer
   text_date_layer = text_layer_create(GRect(8, 10, 144-8, 168-10));
   text_layer_set_text_color(text_date_layer, GColorWhite);
@@ -113,7 +116,6 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(text_day_layer));
   
   //Box Layer
-	
   GRect box_frame = GRect(0, 91, 144, 168-91);
   box_layer = layer_create(box_frame);
   layer_set_update_proc(box_layer, box_layer_update_callback);
@@ -136,8 +138,7 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(text_min_layer));
 	
   //Line
-  GRect line_frame = GRect(8, 38, 139, 2);
-  line_layer = layer_create(line_frame);
+  line_layer = layer_create(GRect(8, 38, 139, 2));
   layer_set_update_proc(line_layer, line_layer_update_callback);
   layer_add_child(window_layer, line_layer);
 
