@@ -32,16 +32,16 @@ void battery_handler(BatteryChargeState batt){
   bool connected = bluetooth_connection_service_peek();
   bluetooth_connection_service_subscribe(&bt_handler);
   bt_handler(connected);
-	if(batt.is_charging){
+	if(batt.is_charging && batt.charge_percent <= 97){
 		layer_set_hidden(line_layer, true);
 		return;
 	}
-	if(batt.charge_percent >= 97){
-		layer_set_hidden(line_layer, false);
-	}
   if(!connected){
-    		layer_set_hidden(line_layer, true);
+    layer_set_hidden(line_layer, true);
   }
+//  if(connected && !batt.is_charging && batt.charge_percent <= 50){
+//		layer_set_hidden(line_layer, true);
+//	}
 	else{
 		layer_set_hidden(line_layer, false);
 	}
@@ -158,7 +158,6 @@ void handle_init(void) {
   struct tm *tick_time = localtime(&now);
   handle_minute_tick(tick_time, MINUTE_UNIT);
   window_stack_push(window, true /* Animated */);
-
 }
 
 int main(void) {
