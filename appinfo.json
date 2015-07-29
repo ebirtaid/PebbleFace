@@ -1,0 +1,46 @@
+{
+    "appKeys": {
+        "KEY_CONDITIONS": 1,
+        "KEY_DAILY": 3,
+        "KEY_HOURLY": 2,
+        "KEY_TEMPERATURE": 0
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "me",
+    "longName": "mine",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/segoe.ttf",
+                "name": "FONT_SEGOE_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/segoe.ttf",
+                "name": "FONT_SEGOE_65",
+                "type": "font"
+            },
+            {
+                "file": "fonts/segoe.ttf",
+                "name": "FONT_SEGOE_43",
+                "type": "font"
+            },
+            {
+                "file": "fonts/segoe.ttf",
+                "name": "FONT_SEGOE_18",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "2",
+    "shortName": "mine",
+    "uuid": "6fe9da21-f354-4cad-8076-c69daadb7d21",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
