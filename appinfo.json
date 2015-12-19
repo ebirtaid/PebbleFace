@@ -15,12 +15,12 @@
         "media": [
             {
                 "file": "fonts/segoe.ttf",
-                "name": "FONT_SEGOE_16",
+                "name": "FONT_SEGOE_15",
                 "type": "font"
             },
             {
                 "file": "fonts/segoe.ttf",
-                "name": "FONT_SEGOE_65",
+                "name": "FONT_SEGOE_18",
                 "type": "font"
             },
             {
@@ -30,7 +30,12 @@
             },
             {
                 "file": "fonts/segoe.ttf",
-                "name": "FONT_SEGOE_18",
+                "name": "FONT_SEGOE_65",
+                "type": "font"
+            },
+            {
+                "file": "fonts/segoe.ttf",
+                "name": "FONT_SEGOE_16",
                 "type": "font"
             }
         ]

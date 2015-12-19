@@ -80,8 +80,8 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   static char temperature_buffer[8];
   static char conditions_buffer[32];
   static char weather_layer_buffer[32];
-  static char hourly_buffer[32];
-  static char daily_buffer[48];
+  static char hourly_buffer[64];
+  static char daily_buffer[64];
   
   //Read first item
   Tuple *t = dict_read_first(iterator);
@@ -210,7 +210,7 @@ void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
   
   //Get weather update every 30 minutes
   //20 minutes, change 20 to desired amount of minutes
-  if(tick_time->tm_min % 20 == 0) {
+  if(tick_time->tm_min % 12 == 0) {
   
     //Begin dictionary
     DictionaryIterator *iter;
@@ -274,7 +274,7 @@ void handle_init(void) {
   text_daily_layer = text_layer_create(GRect(8, 45, 144-8, 168-10));
   text_layer_set_background_color(text_daily_layer, GColorClear);
   text_layer_set_text_color(text_daily_layer, GColorWhite);
-  text_layer_set_font(text_daily_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_16)));
+  text_layer_set_font(text_daily_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SEGOE_15)));
   layer_add_child(window_layer, text_layer_get_layer(text_daily_layer));
   layer_set_hidden((Layer *)text_daily_layer, true);
 
